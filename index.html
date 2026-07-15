@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>King's Business School — End-of-Week Awards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --kbs-blue: #253489;
+    --kbs-gold: #EEAC23;
+    --kbs-ink: #1A1A1A;
+    --kbs-grey: #595959;
+    --kbs-line: #E3E5F0;
+    --display: Optima, "Gill Sans", "Gill Sans MT", "Trebuchet MS", sans-serif;
+    --body: "Source Sans 3", "Segoe UI", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; border-radius: 0; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--body);
+    color: var(--kbs-ink);
+    background: #FFFFFF;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .hidden { display: none !important; }
+
+  /* ---------- Sign-in (full-bleed blue) ---------- */
+  .gate {
+    min-height: 100vh;
+    background: var(--kbs-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .gate-inner { width: 100%; max-width: 420px; text-align: center; }
+  .gate-inner img { width: 200px; max-width: 70%; margin-bottom: 40px; }
+  .gate-inner h1 {
+    font-family: var(--display);
+    color: #FFFFFF;
+    font-size: 26px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin: 0 0 8px;
+  }
+  .gate-inner p { color: #FFFFFF; opacity: 0.85; margin: 0 0 32px; }
+  .gate-inner input {
+    width: 100%;
+    padding: 14px 16px;
+    font: inherit;
+    border: 1px solid #FFFFFF;
+    background: #FFFFFF;
+    color: var(--kbs-ink);
+    margin-bottom: 12px;
+  }
+  .gate-inner button {
+    width: 100%;
+    padding: 14px 16px;
+    font-family: var(--display);
+    font-size: 15px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: transparent;
+    color: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    cursor: pointer;
+  }
+  .gate-inner button:hover { background: rgba(255,255,255,0.12); }
+  .gate-msg { color: #FFFFFF; margin-top: 20px; min-height: 24px; }
+
+  /* ---------- App shell ---------- */
+  header.app-bar {
+    background: var(--kbs-blue);
+    border-bottom: 3px solid var(--kbs-gold); /* the composition's single gold use */
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .bar-brand { display: flex; align-items: center; gap: 16px; }
+  .bar-brand img { height: 44px; display: block; }
+  .bar-brand h1 {
+    font-family: var(--display);
+    color: #FFFFFF;
+    font-size: 18px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin: 0;
+  }
+  .bar-user { display: flex; align-items: center; gap: 16px; color: #FFFFFF; font-size: 14px; }
+  .bar-user button {
+    font: inherit;
+    background: transparent;
+    color: #FFFFFF;
+    border: 1px solid rgba(255,255,255,0.6);
+    padding: 6px 14px;
+    cursor: pointer;
+  }
+  .bar-user button:hover { border-color: #FFFFFF; }
+
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 48px;
+  }
+  @media (max-width: 860px) { main { grid-template-columns: 1fr; gap: 40px; padding: 32px 24px 64px; } }
+
+  h2 {
+    font-family: var(--display);
+    color: var(--kbs-blue);
+    font-size: 20px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin: 0 0 4px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--kbs-line);
+  }
+  .section-note { color: var(--kbs-grey); font-size: 14px; margin: 8px 0 24px; }
+
+  /* ---------- Form ---------- */
+  form label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--kbs-grey);
+    margin: 20px 0 6px;
+  }
+  form select, form input[type="text"], form textarea {
+    width: 100%;
+    padding: 11px 12px;
+    font: inherit;
+    border: 1px solid #C6C9DA;
+    background: #FFFFFF;
+    color: var(--kbs-ink);
+  }
+  form select:focus, form input:focus, form textarea:focus, button:focus-visible {
+    outline: 2px solid var(--kbs-blue);
+    outline-offset: 1px;
+  }
+  form textarea { resize: vertical; min-height: 84px; }
+  .submit-btn {
+    margin-top: 28px;
+    width: 100%;
+    padding: 14px;
+    font-family: var(--display);
+    font-size: 15px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--kbs-blue);
+    color: #FFFFFF;
+    border: none;
+    cursor: pointer;
+  }
+  .submit-btn:hover { background: #1C2870; }
+  .form-msg { min-height: 22px; font-size: 14px; margin-top: 12px; }
+  .form-msg.ok { color: var(--kbs-blue); }
+  .form-msg.err { color: var(--kbs-ink); font-weight: 600; }
+
+  /* ---------- Board ---------- */
+  .board-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+  .refresh-btn {
+    font: inherit; font-size: 14px;
+    background: transparent;
+    border: 1px solid #C6C9DA;
+    color: var(--kbs-blue);
+    padding: 5px 12px;
+    cursor: pointer;
+  }
+  .card {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    border: 1px solid var(--kbs-line);
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(37,52,137,0.10);
+  }
+  .tally {
+    background: var(--kbs-blue);
+    color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 8px;
+  }
+  .tally .n { font-family: var(--display); font-size: 40px; font-weight: 600; line-height: 1; }
+  .tally .l { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; margin-top: 6px; opacity: 0.85; }
+  .card-body { padding: 18px 20px; }
+  .award-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--kbs-grey);
+    margin: 0 0 4px;
+  }
+  .student-name {
+    font-family: var(--display);
+    color: var(--kbs-blue);
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 8px;
+  }
+  .student-name .lanyard { font-family: var(--body); font-size: 14px; font-weight: 400; color: var(--kbs-grey); }
+  .reason { margin: 0 0 12px; }
+  .meta { font-size: 13px; color: var(--kbs-grey); font-style: italic; }
+  .vote-row { margin-top: 12px; }
+  .vote-btn {
+    font: inherit; font-size: 14px; font-weight: 600;
+    background: transparent;
+    color: var(--kbs-blue);
+    border: 1px solid var(--kbs-blue);
+    padding: 7px 18px;
+    cursor: pointer;
+  }
+  .vote-btn:hover { background: var(--kbs-blue); color: #FFFFFF; }
+  .vote-btn.voted { background: var(--kbs-blue); color: #FFFFFF; }
+  .empty { color: var(--kbs-grey); border: 1px dashed #C6C9DA; padding: 32px; text-align: center; }
+  @media (prefers-reduced-motion: no-preference) {
+    .card { transition: box-shadow 0.15s ease; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ 1. SIGN-IN ============ -->
+<div id="view-login" class="gate">
+  <div class="gate-inner">
+    <img src="KBS_Logo_White.png" alt="King's Business School">
+    <h1>End-of-Week Awards</h1>
+    <p>Enter your school email address and we will send you a sign-in link.</p>
+    <input id="login-email" type="email" placeholder="you@kcs.org.uk" autocomplete="email">
+    <button id="login-btn">Send sign-in link</button>
+    <div id="login-msg" class="gate-msg" role="status"></div>
+  </div>
+</div>
+
+<!-- ============ 2. NOT AUTHORISED ============ -->
+<div id="view-denied" class="gate hidden">
+  <div class="gate-inner">
+    <img src="KBS_Crest_White.png" alt="" style="width:90px">
+    <h1>Not authorised</h1>
+    <p id="denied-msg">This account is not on the list of participating teachers. Ask Mr Gorrie to add your email address.</p>
+    <button id="denied-signout">Sign out</button>
+  </div>
+</div>
+
+<!-- ============ 3. APP ============ -->
+<div id="view-app" class="hidden">
+  <header class="app-bar">
+    <div class="bar-brand">
+      <img src="KBS_Crest_White.png" alt="King's Business School">
+      <h1>End-of-Week Awards</h1>
+    </div>
+    <div class="bar-user">
+      <span id="user-email"></span>
+      <button id="signout-btn">Sign out</button>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <h2>Nominate a student</h2>
+      <p class="section-note">Choose a student and an award, or create a new award of your own. Each student can hold one nomination per award.</p>
+      <form id="nominate-form">
+        <label for="f-student">Student</label>
+        <select id="f-student" required></select>
+
+        <label for="f-award">Award</label>
+        <select id="f-award" required></select>
+
+        <div id="new-award-wrap" class="hidden">
+          <label for="f-new-award">New award name</label>
+          <input id="f-new-award" type="text" maxlength="80" placeholder="eg Calmest head in a crisis">
+        </div>
+
+        <label for="f-reason">Why they deserve it</label>
+        <textarea id="f-reason" maxlength="400" placeholder="One or two sentences."></textarea>
+
+        <button type="submit" class="submit-btn">Add nomination</button>
+        <div id="form-msg" class="form-msg" role="status"></div>
+      </form>
+    </section>
+
+    <section>
+      <div class="board-head">
+        <h2 style="border:none; padding-bottom:0">Nominations</h2>
+        <button id="refresh-btn" class="refresh-btn">Refresh</button>
+      </div>
+      <p class="section-note">Ranked by votes. You have one vote per nomination; select Vote again to withdraw it.</p>
+      <div id="board"></div>
+    </section>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ================= CONFIGURATION =================
+   EDIT these two values.
+   - URL: Settings -> API (Project URL)
+   - Key: Settings -> API Keys -> the PUBLISHABLE key,
+     which starts sb_publishable_ (on older projects,
+     the legacy "anon public" key also works).
+   Never put the secret key (sb_secret_) here. The
+   publishable key is designed to be public; access is
+   controlled by the database rules in
+   supabase-setup.sql, not by hiding this key. */
+const SUPABASE_URL = "https://wngtgvmwwlltodqflwzh.supabase.co/rest/v1/";
+const SUPABASE_ANON_KEY = "sb_publishable_fhcV4fczO69yyM4-DOKYjQ_zsNzTrLM";
+/* ================================================= */
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const $ = (id) => document.getElementById(id);
+const NEW_AWARD_VALUE = "__new__";
+let me = null;          // signed-in user email
+let students = [];
+let awards = [];
+let refreshTimer = null;
+
+function show(view) {
+  ["view-login", "view-denied", "view-app"].forEach((v) => $(v).classList.add("hidden"));
+  $(view).classList.remove("hidden");
+}
+
+function esc(s) {
+  return String(s ?? "").replace(/[&<>"']/g, (c) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function nameFromEmail(email) {
+  const local = String(email).split("@")[0];
+  return local.replace(/[._-]+/g, " ");
+}
+
+/* ---------- Auth ---------- */
+$("login-btn").addEventListener("click", async () => {
+  const email = $("login-email").value.trim();
+  if (!email) { $("login-msg").textContent = "Enter your email address first."; return; }
+  $("login-msg").textContent = "Sending…";
+  const { error } = await sb.auth.signInWithOtp({
+    email,
+    options: { emailRedirectTo: window.location.origin + window.location.pathname }
+  });
+  $("login-msg").textContent = error
+    ? "That did not work: " + error.message
+    : "Check your inbox. The link signs you in on this device.";
+});
+
+$("signout-btn").addEventListener("click", () => sb.auth.signOut());
+$("denied-signout").addEventListener("click", () => sb.auth.signOut());
+
+sb.auth.onAuthStateChange(async (_event, session) => {
+  clearInterval(refreshTimer);
+  if (!session) { me = null; show("view-login"); return; }
+  me = session.user.email;
+
+  // Whitelist check: a non-listed user can read no rows, including their own.
+  const { data } = await sb.from("allowed_emails").select("email").limit(1);
+  if (!data || data.length === 0) { show("view-denied"); return; }
+
+  $("user-email").textContent = me;
+  show("view-app");
+  await loadReferenceData();
+  await loadBoard();
+  refreshTimer = setInterval(loadBoard, 30000);
+});
+
+/* ---------- Reference data ---------- */
+async function loadReferenceData() {
+  const [s, a] = await Promise.all([
+    sb.from("students").select("*").order("first_name"),
+    sb.from("awards").select("*").order("is_preset", { ascending: false }).order("name")
+  ]);
+  students = s.data || [];
+  awards = a.data || [];
+
+  $("f-student").innerHTML =
+    '<option value="" disabled selected>Choose a student</option>' +
+    students.map((st) =>
+      `<option value="${st.id}">${esc(st.first_name)} — lanyard ${esc(st.lanyard_number)}</option>`
+    ).join("");
+
+  $("f-award").innerHTML =
+    '<option value="" disabled selected>Choose an award</option>' +
+    awards.map((aw) => `<option value="${aw.id}">${esc(aw.name)}</option>`).join("") +
+    `<option value="${NEW_AWARD_VALUE}">Create a new award…</option>`;
+}
+
+$("f-award").addEventListener("change", () => {
+  const isNew = $("f-award").value === NEW_AWARD_VALUE;
+  $("new-award-wrap").classList.toggle("hidden", !isNew);
+  $("f-new-award").required = isNew;
+});
+
+/* ---------- Nominate ---------- */
+$("nominate-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const msg = $("form-msg");
+  msg.className = "form-msg";
+  msg.textContent = "Saving…";
+
+  let awardId = $("f-award").value;
+  if (awardId === NEW_AWARD_VALUE) {
+    const name = $("f-new-award").value.trim();
+    if (!name) { msg.className = "form-msg err"; msg.textContent = "Give the new award a name."; return; }
+    const { data, error } = await sb.from("awards")
+      .insert({ name, is_preset: false, created_by: me }).select().single();
+    if (error) {
+      // Most likely the name already exists — reuse it.
+      const existing = awards.find((a) => a.name.toLowerCase() === name.toLowerCase());
+      if (!existing) { msg.className = "form-msg err"; msg.textContent = "Could not create that award: " + error.message; return; }
+      awardId = existing.id;
+    } else {
+      awardId = data.id;
+    }
+  }
+
+  const { error } = await sb.from("nominations").insert({
+    student_id: Number($("f-student").value),
+    award_id: Number(awardId),
+    reason: $("f-reason").value.trim() || null,
+    nominated_by: me
+  });
+
+  if (error) {
+    msg.className = "form-msg err";
+    msg.textContent = error.code === "23505"
+      ? "That student is already nominated for that award — add your vote to it instead."
+      : "Could not save: " + error.message;
+  } else {
+    msg.className = "form-msg ok";
+    msg.textContent = "Nomination added.";
+    $("nominate-form").reset();
+    $("new-award-wrap").classList.add("hidden");
+  }
+  await loadReferenceData();
+  await loadBoard();
+});
+
+/* ---------- Board ---------- */
+$("refresh-btn").addEventListener("click", loadBoard);
+
+async function loadBoard() {
+  const [n, v] = await Promise.all([
+    sb.from("nominations").select("*, students(first_name, lanyard_number), awards(name)"),
+    sb.from("votes").select("nomination_id, voter_email")
+  ]);
+  const noms = n.data || [];
+  const votes = v.data || [];
+
+  const counts = {};
+  const mine = new Set();
+  votes.forEach((vt) => {
+    counts[vt.nomination_id] = (counts[vt.nomination_id] || 0) + 1;
+    if (vt.voter_email.toLowerCase() === me.toLowerCase()) mine.add(vt.nomination_id);
+  });
+
+  noms.sort((a, b) => (counts[b.id] || 0) - (counts[a.id] || 0) || a.created_at.localeCompare(b.created_at));
+
+  if (noms.length === 0) {
+    $("board").innerHTML = '<div class="empty">No nominations yet. Add the first one.</div>';
+    return;
+  }
+
+  $("board").innerHTML = noms.map((nom) => {
+    const c = counts[nom.id] || 0;
+    const voted = mine.has(nom.id);
+    return `
+    <article class="card">
+      <div class="tally"><span class="n">${c}</span><span class="l">${c === 1 ? "vote" : "votes"}</span></div>
+      <div class="card-body">
+        <p class="award-label">${esc(nom.awards.name)}</p>
+        <h3 class="student-name">${esc(nom.students.first_name)}
+          <span class="lanyard">lanyard ${esc(nom.students.lanyard_number)}</span></h3>
+        ${nom.reason ? `<p class="reason">${esc(nom.reason)}</p>` : ""}
+        <p class="meta">Nominated by ${esc(nameFromEmail(nom.nominated_by))}</p>
+        <div class="vote-row">
+          <button class="vote-btn ${voted ? "voted" : ""}" data-id="${nom.id}" data-voted="${voted}">
+            ${voted ? "Voted — withdraw" : "Vote"}
+          </button>
+        </div>
+      </div>
+    </article>`;
+  }).join("");
+
+  document.querySelectorAll(".vote-btn").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      btn.disabled = true;
+      const id = Number(btn.dataset.id);
+      if (btn.dataset.voted === "true") {
+        await sb.from("votes").delete().eq("nomination_id", id).eq("voter_email", me);
+      } else {
+        await sb.from("votes").insert({ nomination_id: id, voter_email: me });
+      }
+      await loadBoard();
+    });
+  });
+}
+</script>
+</body>
+</html>
