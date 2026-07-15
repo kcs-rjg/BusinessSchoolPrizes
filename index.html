@@ -229,6 +229,43 @@
   .vote-btn:hover { background: var(--kbs-blue); color: #FFFFFF; }
   .vote-btn.voted { background: var(--kbs-blue); color: #FFFFFF; }
   .empty { color: var(--kbs-grey); border: 1px dashed #C6C9DA; padding: 32px; text-align: center; }
+  .award-group { margin-bottom: 40px; }
+  .award-head {
+    font-family: var(--display);
+    color: var(--kbs-blue);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin: 0 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--kbs-line);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .award-count {
+    font-family: var(--body);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--kbs-grey);
+    white-space: nowrap;
+  }
+  .del-btn {
+    font: inherit;
+    font-size: 13px;
+    background: transparent;
+    border: none;
+    color: var(--kbs-grey);
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 7px 0;
+    margin-left: 16px;
+  }
+  .del-btn:hover { color: var(--kbs-ink); }
   @media (prefers-reduced-motion: no-preference) {
     .card { transition: box-shadow 0.15s ease; }
   }
@@ -294,7 +331,7 @@
         <h2 style="border:none; padding-bottom:0">Nominations</h2>
         <button id="refresh-btn" class="refresh-btn">Refresh</button>
       </div>
-      <p class="section-note">Ranked by votes. You have one vote per nomination; select Vote again to withdraw it.</p>
+      <p class="section-note">Grouped by award, ranked by votes within each. You have one vote per nomination; select Vote again to withdraw it. You can remove a nomination you added yourself.</p>
       <div id="board"></div>
     </section>
   </main>
@@ -469,33 +506,47 @@ async function loadBoard() {
   if (error || !data || !data.ok) return;
   const noms = data.nominations || [];
 
-  noms.sort((a, b) =>
-    (b.voters.length - a.voters.length) || a.created_at.localeCompare(b.created_at));
-
   if (noms.length === 0) {
     $("board").innerHTML = '<div class="empty">No nominations yet. Add the first one.</div>';
     return;
   }
 
-  $("board").innerHTML = noms.map((nom) => {
-    const c = nom.voters.length;
-    const voted = nom.voters.includes(me);
-    return `
-    <article class="card">
-      <div class="tally"><span class="n">${c}</span><span class="l">${c === 1 ? "vote" : "votes"}</span></div>
-      <div class="card-body">
-        <p class="award-label">${esc(nom.award)}</p>
-        <h3 class="student-name">${esc(nom.first_name)}
-          <span class="lanyard">lanyard ${esc(nom.lanyard_number)}</span></h3>
-        ${nom.reason ? `<p class="reason">${esc(nom.reason)}</p>` : ""}
-        <p class="meta">Nominated by ${esc(nom.nominated_by)}</p>
-        <div class="vote-row">
-          <button class="vote-btn ${voted ? "voted" : ""}" data-id="${nom.id}" data-voted="${voted}">
-            ${voted ? "Voted — withdraw" : "Vote"}
-          </button>
+  const groups = new Map();
+  noms.forEach((n) => {
+    if (!groups.has(n.award)) groups.set(n.award, []);
+    groups.get(n.award).push(n);
+  });
+  const awardNames = [...groups.keys()].sort((a, b) => a.localeCompare(b));
+
+  $("board").innerHTML = awardNames.map((award) => {
+    const list = groups.get(award).sort((a, b) =>
+      (b.voters.length - a.voters.length) || a.created_at.localeCompare(b.created_at));
+    const cards = list.map((nom) => {
+      const c = nom.voters.length;
+      const voted = nom.voters.includes(me);
+      const ownsIt = nom.nominated_by === me;
+      return `
+      <article class="card">
+        <div class="tally"><span class="n">${c}</span><span class="l">${c === 1 ? "vote" : "votes"}</span></div>
+        <div class="card-body">
+          <h3 class="student-name">${esc(nom.first_name)}
+            <span class="lanyard">lanyard ${esc(nom.lanyard_number)}</span></h3>
+          ${nom.reason ? `<p class="reason">${esc(nom.reason)}</p>` : ""}
+          <p class="meta">Nominated by ${esc(nom.nominated_by)}</p>
+          <div class="vote-row">
+            <button class="vote-btn ${voted ? "voted" : ""}" data-id="${nom.id}" data-voted="${voted}">
+              ${voted ? "Voted — withdraw" : "Vote"}
+            </button>${ownsIt ? `<button class="del-btn" data-id="${nom.id}" data-student="${esc(nom.first_name)}">Remove</button>` : ""}
+          </div>
         </div>
-      </div>
-    </article>`;
+      </article>`;
+    }).join("");
+    return `
+    <section class="award-group">
+      <h3 class="award-head">${esc(award)}
+        <span class="award-count">${list.length} ${list.length === 1 ? "nomination" : "nominations"}</span></h3>
+      ${cards}
+    </section>`;
   }).join("");
 
   document.querySelectorAll(".vote-btn").forEach((btn) => {
@@ -505,7 +556,17 @@ async function loadBoard() {
       await loadBoard();
     });
   });
+
+  document.querySelectorAll(".del-btn").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      if (!window.confirm("Remove your nomination for " + btn.dataset.student + "? Its votes will be removed with it.")) return;
+      btn.disabled = true;
+      await sb.rpc("app_delete_nomination", { p: PASS, nid: Number(btn.dataset.id), teacher: me });
+      await loadBoard();
+    });
+  });
 }
+
 </script>
 </body>
 </html>
