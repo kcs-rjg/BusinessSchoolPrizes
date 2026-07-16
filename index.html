@@ -182,7 +182,7 @@
   }
   .card {
     display: grid;
-    grid-template-columns: 96px 1fr;
+    grid-template-columns: 96px 84px 1fr;
     border: 1px solid var(--kbs-line);
     margin-bottom: 16px;
     box-shadow: 0 2px 8px rgba(37,52,137,0.10);
@@ -199,6 +199,22 @@
   .tally .n { font-family: var(--display); font-size: 40px; font-weight: 600; line-height: 1; }
   .tally .l { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; margin-top: 6px; opacity: 0.85; }
   .card-body { padding: 18px 20px; }
+  .mug { width: 100%; height: 100%; min-height: 126px; object-fit: cover; object-position: top; display: block; }
+  .mug-fallback {
+    background: #EDEFF7;
+    color: var(--kbs-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--display);
+    font-size: 30px;
+    font-weight: 600;
+    min-height: 126px;
+  }
+  @media (max-width: 560px) {
+    .card { grid-template-columns: 64px 64px 1fr; }
+    .tally .n { font-size: 28px; }
+  }
   .award-label {
     font-size: 12px;
     font-weight: 700;
@@ -525,9 +541,14 @@ async function loadBoard() {
       const c = nom.voters.length;
       const voted = nom.voters.includes(me);
       const ownsIt = nom.nominated_by === me;
+      const st = students.find((s) => s.id === nom.student_id);
+      const mug = (st && st.photo)
+        ? `<img class="mug" src="${st.photo}" alt="">`
+        : `<div class="mug-fallback">${esc(nom.first_name.charAt(0))}</div>`;
       return `
       <article class="card">
         <div class="tally"><span class="n">${c}</span><span class="l">${c === 1 ? "vote" : "votes"}</span></div>
+        ${mug}
         <div class="card-body">
           <h3 class="student-name">${esc(nom.first_name)}
             <span class="lanyard">lanyard ${esc(nom.lanyard_number)}</span></h3>
